@@ -1,4 +1,4 @@
-# pizzería
+# g1-pizzería
 Docente 
 Gustavo Rojas
 Ingenieria de software
