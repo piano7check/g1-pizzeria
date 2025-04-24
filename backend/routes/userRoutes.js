@@ -12,14 +12,9 @@ const { protect } = require('../middleware/authMiddleware');
 router.post('/', registerUser);
 router.post('/login', loginUser);
 
-// Rutas protegidas (temporalmente sin protección)
+// Rutas protegidas
 router.route('/profile')
-  .get(getUserProfile) // Se ha quitado la protección temporalmente
-  .put(updateUserProfile); // Se ha quitado la protección temporalmente
-
-// Código original con protección:
-// router.route('/profile')
-//   .get(protect, getUserProfile)
-//   .put(protect, updateUserProfile);
+  .get(protect, getUserProfile)
+  .put(protect, updateUserProfile);
 
 module.exports = router;
