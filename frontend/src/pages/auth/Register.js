@@ -17,7 +17,6 @@ const Register = () => {
   const navigate = useNavigate();
   
   useEffect(() => {
-    // Redirigir si el usuario ya está autenticado
     if (authService.getCurrentUser()) {
       navigate('/');
     }
@@ -51,7 +50,6 @@ const Register = () => {
     try {
       setLoading(true);
       await authService.register({ nombre, email, password });
-      // Limpiar el localStorage para que no se inicie sesión automáticamente
       localStorage.removeItem('user');
       setSuccess('Usuario creado exitosamente. Redirigiendo a inicio de sesión...');
       setFormData({
@@ -60,7 +58,6 @@ const Register = () => {
         password: '',
         confirmPassword: ''
       });
-      // Esperar 2 segundos antes de redirigir
       setTimeout(() => {
         navigate('/login');
       }, 2000);
@@ -159,7 +156,12 @@ const Register = () => {
         </form>
         
         <div className="auth-link">
-          <p>¿Ya tienes una cuenta? <Link to="/login">Iniciar sesión</Link></p>
+          <p>
+            ¿Ya tienes una cuenta?{' '}
+            <Link to="/login" className="auth-link-text">
+              Iniciar sesión
+            </Link>
+          </p>
         </div>
       </div>
     </div>

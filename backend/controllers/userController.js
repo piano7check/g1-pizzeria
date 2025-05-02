@@ -8,24 +8,33 @@ const generateToken = (id) => {
   });
 };
 
+// Validar email
+const validateEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
 // @desc    Registrar un nuevo usuario
 // @route   POST /api/users
 // @access  Public
 const registerUser = async (req, res) => {
   const { nombre, email, password } = req.body;
 
-  // Verificar si todos los campos están completos
+  // Validaciones
   if (!nombre || !email || !password) {
-    res.status(400);
-    throw new Error('Por favor completa todos los campos');
+    return res.status(400).json({ message: 'Por favor completa todos los campos' });
+  }
+  if (!validateEmail(email)) {
+    return res.status(400).json({ message: 'Por favor ingresa un correo electrónico válido' });
+  }
+  if (password.length < 6 || password.length > 128) {
+    return res.status(400).json({ message: 'La contraseña debe tener entre 6 y 128 caracteres' });
   }
 
   // Verificar si el usuario ya existe
   const userExists = await User.findOne({ email });
-
   if (userExists) {
-    res.status(400);
-    throw new Error('El usuario ya existe');
+    return res.status(400).json({ message: 'El usuario ya existe' });
   }
 
   // Crear usuario
@@ -36,15 +45,16 @@ const registerUser = async (req, res) => {
   });
 
   if (user) {
+    const token = generateToken(user._id);
     res.status(201).json({
       _id: user._id,
       nombre: user.nombre,
       email: user.email,
-      token: generateToken(user._id),
+      token,
+      expiresIn: '30d', // Añadido para informar al frontend
     });
   } else {
-    res.status(400);
-    throw new Error('Datos de usuario inválidos');
+    res.status(400).json({ message: 'Datos de usuario inválidos' });
   }
 };
 
@@ -54,20 +64,28 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
+  // Validaciones
+  if (!email || !password) {
+    return res.status(400).json({ message: 'Por favor completa todos los campos' });
+  }
+  if (!validateEmail(email)) {
+    return res.status(400).json({ message: 'Por favor ingresa un correo electrónico válido' });
+  }
+
   // Verificar si el email existe
   const user = await User.findOne({ email }).select('+password');
 
-  // Verificar si el usuario existe y la contraseña coincide
   if (user && (await user.matchPassword(password))) {
+    const token = generateToken(user._id);
     res.json({
       _id: user._id,
       nombre: user.nombre,
       email: user.email,
-      token: generateToken(user._id),
+      token,
+      expiresIn: '30d', // Añadido para informar al frontend
     });
   } else {
-    res.status(401);
-    throw new Error('Email o contraseña incorrectos');
+    res.status(401).json({ message: 'Email o contraseña incorrectos' });
   }
 };
 
@@ -86,8 +104,7 @@ const getUserProfile = async (req, res) => {
       telefono: user.telefono,
     });
   } else {
-    res.status(404);
-    throw new Error('Usuario no encontrado');
+    res.status(404).json({ message: 'Usuario no encontrado' });
   }
 };
 
@@ -104,6 +121,9 @@ const updateUserProfile = async (req, res) => {
     user.telefono = req.body.telefono || user.telefono;
 
     if (req.body.password) {
+      if (req.body.password.length < 6 || req.body.password.length > 128) {
+        return res.status(400).json({ message: 'La contraseña debe tener entre 6 y 128 caracteres' });
+      }
       user.password = req.body.password;
     }
 
@@ -118,8 +138,7 @@ const updateUserProfile = async (req, res) => {
       token: generateToken(updatedUser._id),
     });
   } else {
-    res.status(404);
-    throw new Error('Usuario no encontrado');
+    res.status(404).json({ message: 'Usuario no encontrado' });
   }
 };
 
