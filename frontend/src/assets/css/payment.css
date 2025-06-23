@@ -1,0 +1,149 @@
+.payment-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: url('../img/fondo.webp') no-repeat center center/cover;
+}
+
+.payment-container.modal-backdrop {
+  background: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+}
+
+.payment-box {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  padding: 30px;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.payment-box.modal-content {
+  position: relative;
+  z-index: 1001;
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 24px;
+  color: #333;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+  background: #ddd;
+  color: #000;
+}
+
+.payment-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 24px;
+  color: #111;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.qr-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.qr-code {
+  max-width: 200px;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border: 2px solid #eee;
+  border-radius: 10px;
+  padding: 10px;
+  background: #fff;
+}
+
+.payment-text {
+  font-size: 16px;
+  color: #444;
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.monto {
+  font-weight: bold;
+  font-size: 20px;
+  color: #111;
+  margin-top: 15px;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+#monto-total {
+  font-weight: 700;
+  color: #e74c3c;
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .payment-box {
+    width: 350px;
+    padding: 25px;
+  }
+
+  .qr-code {
+    max-width: 180px;
+  }
+
+  .payment-text {
+    font-size: 15px;
+  }
+
+  .monto {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .payment-box {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .qr-code {
+    max-width: 150px;
+  }
+
+  .payment-text {
+    font-size: 14px;
+  }
+
+  .monto {
+    font-size: 16px;
+  }
+
+  .close-btn {
+    font-size: 20px;
+    width: 25px;
+    height: 25px;
+  }
+}

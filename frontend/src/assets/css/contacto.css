@@ -1,0 +1,79 @@
+.contacto-page {
+    min-height: 100vh;
+    background-color: #f5f5f5;
+    padding-top: 0;
+    margin-top: -400px;
+}
+
+.contacto-container {
+    min-height: calc(100vh - 0px);
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+.contacto-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.contacto-content h1 {
+    text-align: center;
+    color: #000;
+    margin-bottom: 40px;
+    font-size: 2.5rem;
+}
+
+.contacto-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.info-item {
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.info-item h3 {
+    color: #000;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.info-item p {
+    color: #666;
+    margin: 5px 0;
+    font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+    .contacto-page {
+        margin-top: -300px;
+    }
+
+    .contacto-container {
+        padding: 0;
+    }
+    
+    .contacto-content {
+        padding: 20px;
+    }
+    
+    .contacto-content h1 {
+        font-size: 2rem;
+    }
+    
+    .info-item h3 {
+        font-size: 1.3rem;
+    }
+    
+    .info-item p {
+        font-size: 1rem;
+    }
+} 
